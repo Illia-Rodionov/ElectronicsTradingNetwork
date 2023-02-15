@@ -1,0 +1,9 @@
+.idea
+__pycache__/
+.dockerignore
+.env
+.venv/
+db.sqlite3
+
+# celery beat schedule file
+celerybeat-schedule
