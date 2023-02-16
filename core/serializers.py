@@ -21,7 +21,7 @@ class ProductSerializer(serializers.ModelSerializer):
     """Product Serializer"""
     class Meta:
         model = Product
-        fields = ('name', 'product_model', 'market_launch_date')
+        fields = ('product_name', 'product_model', 'market_launch_date')
 
 
 class SupplierSerializer(serializers.ModelSerializer):

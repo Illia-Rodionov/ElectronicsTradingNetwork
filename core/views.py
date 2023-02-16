@@ -1,9 +1,11 @@
 from django.db.models import Avg
+from django_filters import rest_framework as filters
 from rest_framework import viewsets, generics
 from core.models import Supplier, Product, User, Contact
 from core.permissions import IsActive
 from core.serializers import SupplierSerializer, ProductSerializer, \
     SupplierStatisticSerializer, UserSerializer, ContactSerializer
+from core.services import SupplierCountryFilter
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -15,6 +17,8 @@ class UserViewSet(viewsets.ModelViewSet):
 class SupplierViewSet(viewsets.ModelViewSet):
     queryset = Supplier.objects.all()
     serializer_class = SupplierSerializer
+    filter_backends = (filters.DjangoFilterBackend,)
+    filterset_class = SupplierCountryFilter
     permission_classes = (IsActive,)
 
 
