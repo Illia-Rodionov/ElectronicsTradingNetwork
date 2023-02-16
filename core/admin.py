@@ -18,6 +18,12 @@ class UserAdmin(admin.ModelAdmin):
     pass
 
 
+@admin.action(description='Clearing debts')
+def clear_the_debt(modeladmin, request, queryset):
+    """action to clear debt"""
+    queryset.update(debt_to_the_supplier=0)
+
+
 @admin.register(Supplier)
 class SupplierAdmin(admin.ModelAdmin):
-    pass
+    actions = [clear_the_debt]
