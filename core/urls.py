@@ -5,14 +5,12 @@ from core.views import SupplierViewSet, ProductViewSet, UserViewSet, ContactView
 
 app_name = "core"
 
-
 router = routers.SimpleRouter()
 
 router.register(r"supplier", SupplierViewSet, basename='supplier')
 router.register(r"product", ProductViewSet, basename='product')
 router.register(r"user", UserViewSet, basename='user')
 router.register(r"contact", ContactViewSet, basename='contact')
-
 
 
 urlpatterns = [
