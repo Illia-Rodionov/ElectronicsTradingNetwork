@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from core.models import Supplier, Product, User
+from core.models import Supplier, Product, Contact, User
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -8,6 +8,13 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('username',)
+
+
+class ContactSerializer(serializers.ModelSerializer):
+    """Contact Serializer"""
+    class Meta:
+        model = Contact
+        fields = ('country', 'city', 'street', 'house_number')
 
 
 class ProductSerializer(serializers.ModelSerializer):

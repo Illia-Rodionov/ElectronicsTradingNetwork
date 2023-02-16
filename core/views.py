@@ -1,14 +1,15 @@
 from django.db.models import Avg
 from rest_framework import viewsets, generics
-from core.models import Supplier, Product, User
+from core.models import Supplier, Product, User, Contact
 from core.permissions import IsActive
 from core.serializers import SupplierSerializer, ProductSerializer, \
-    SupplierStatisticSerializer, UserSerializer
+    SupplierStatisticSerializer, UserSerializer, ContactSerializer
 
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    permission_classes = (IsActive,)
 
 
 class SupplierViewSet(viewsets.ModelViewSet):
@@ -32,3 +33,9 @@ class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     permission_classes = (IsActive,)
+
+
+class ContactViewSet(viewsets.ModelViewSet):
+    queryset = Contact.objects.all()
+    serializer_class = ContactSerializer
+    permission_classes = (IsActive, )
