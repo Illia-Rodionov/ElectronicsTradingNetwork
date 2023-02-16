@@ -4,7 +4,16 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-django = "*"
+django = "==4.0"
+djangorestframework = "==3.14.0"
+psycopg2-binary = "==2.9.3"
+docker = "==6.0.0"
+docker-compose = "==1.29.2"
+celery = "==5.2.7"
+redis = "==4.3.4"
+django-filter = "==22.1"
+qrcode = "==7.3.1"
+image = "==1.5.33"
 
 [dev-packages]
 
