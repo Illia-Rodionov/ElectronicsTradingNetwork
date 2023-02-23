@@ -34,6 +34,16 @@ class SupplierSerializer(serializers.ModelSerializer):
                   'debt_to_the_supplier', 'created_at')
 
 
+class SupplierUpdateSerializer(serializers.ModelSerializer):
+    """Supplier Update Serializer"""
+    email = serializers.EmailField(read_only=True)
+
+    class Meta:
+        model = Supplier
+        fields = (('supplier_name', "supplier_type", 'contact', 'email', 'provider',
+                  'debt_to_the_supplier', 'created_at'))
+
+
 class SupplierStatisticSerializer(serializers.ModelSerializer):
     class Meta:
         model = Supplier

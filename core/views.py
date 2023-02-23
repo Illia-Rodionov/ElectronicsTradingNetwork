@@ -4,17 +4,20 @@ from rest_framework import viewsets, generics
 from core.models import Supplier, Product, User, Contact
 from core.permissions import IsActive
 from core.serializers import SupplierSerializer, ProductSerializer, \
-    SupplierStatisticSerializer, UserSerializer, ContactSerializer
+    SupplierStatisticSerializer, UserSerializer, ContactSerializer,\
+    SupplierUpdateSerializer
 from core.services import SupplierCountryFilter
 
 
 class UserViewSet(viewsets.ModelViewSet):
+    """User ViewSet"""
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = (IsActive,)
 
 
-class SupplierViewSet(viewsets.ModelViewSet):
+class SupplierListCreateAPIView(generics.ListCreateAPIView):
+    """Supplier List Create APIView"""
     queryset = Supplier.objects.all()
     serializer_class = SupplierSerializer
     filter_backends = (filters.DjangoFilterBackend,)
@@ -22,7 +25,15 @@ class SupplierViewSet(viewsets.ModelViewSet):
     permission_classes = (IsActive,)
 
 
+class SupplierUpdateDeleteAPIView(generics.RetrieveUpdateDestroyAPIView):
+    """Supplier Update, Delete APIView"""
+    queryset = Supplier.objects.all()
+    serializer_class = SupplierUpdateSerializer
+    permission_classes = (IsActive,)
+
+
 class SupplierStatisticView(generics.ListAPIView):
+    """Supplier Statistic View"""
     queryset = Supplier.objects.all()
     serializer_class = SupplierStatisticSerializer
     permission_classes = (IsActive,)
