@@ -1,0 +1,81 @@
+version: "3"
+
+services:
+  postgres:
+    image: postgres:13.3
+    container_name: postgres_el_trading
+    env_file: .env
+    volumes:
+        - \pgdata\var\lib\postgresql\data
+    hostname: postgres
+    expose:
+      - "5432"
+    ports:
+      - "5432:5432"
+
+
+  redis:
+    image: redis
+    container_name: trading_redis
+    env_file: .env
+    volumes:
+      - ./:/app/
+    expose:
+      - "6379"
+    ports:
+      - "6379:6379"
+
+  django:
+    &django
+    build:
+      context: .
+    image: trading_django
+    container_name: django
+    env_file: .env
+    volumes:
+      - ./:/app/
+    expose:
+      - "8000"
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+      - redis
+    command: sh -c "python manage.py makemigrations &&
+             python manage.py migrate &&
+             python manage.py runserver 0.0.0.0:8000"
+
+
+  celeryworker:
+    depends_on:
+      - django
+      - postgres
+      - redis
+    image: trading_django
+    container_name: trading_celeryworker
+    env_file: .env
+    volumes:
+      - ./:/app/
+    environment:
+      - DEBUG=1
+      - CELERY_BROKER_URL=redis://redis:6379
+      - CELERY_BACKEND=redis://redis:6379
+    command: sh -c "celery -A config worker -l info"
+
+  celery-beat:
+    depends_on:
+      - redis
+    image: trading_django
+    env_file: .env
+    container_name: treading_celery-beat
+    volumes:
+      - ./:/app/
+    environment:
+      - DEBUG=1
+      - CELERY_BROKER_URL=redis://redis:6379
+      - CELERY_BACKEND=redis://redis:6379
+    command: sh -c "celery -A config beat -l info"
+
+
+volumes:
+  pgdata:

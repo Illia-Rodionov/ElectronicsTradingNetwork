@@ -26,22 +26,25 @@ class ProductSerializer(serializers.ModelSerializer):
 
 class SupplierSerializer(serializers.ModelSerializer):
     """Supplier Serializer"""
-    debt_to_the_supplier = serializers.FloatField(read_only=True)
 
     class Meta:
         model = Supplier
         fields = ('supplier_name', "supplier_type", 'contact', 'email', 'product', 'employee', 'provider',
                   'debt_to_the_supplier', 'created_at')
 
+        depth = 1
+
 
 class SupplierUpdateSerializer(serializers.ModelSerializer):
     """Supplier Update Serializer"""
-    email = serializers.EmailField(read_only=True)
+    contact = serializers.SlugRelatedField(slug_field='city', queryset=Contact.objects.all(), many=True)
 
     class Meta:
         model = Supplier
         fields = (('supplier_name', "supplier_type", 'contact', 'email', 'provider',
                   'debt_to_the_supplier', 'created_at'))
+
+        depth = 1
 
 
 class SupplierStatisticSerializer(serializers.ModelSerializer):

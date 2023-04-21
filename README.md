@@ -18,71 +18,71 @@
 2. Create a database using Django migrations.
 
 # Implementation requirements:
-1. **It is necessary to implement a network model for the sale of electronics. The network should
-be a hierarchical structure of 5 levels:**
-   - Factory;
-   - Distributor;
-   - Dealership;
-   - Large retail chain;
-   - Individual entrepreneur.
+Требования к реализации:
+1. Необходимо реализовать модель сети по продаже электроники. Сеть должна 
+представлять собой иерархическую структуру из 5 уровней:
+- Завод;
+- Дистрибьютор;
+- Дилерский центр;
+- Крупная розничная сеть;
+- Индивидуальный предприниматель.
+Каждое звено сети ссылается только на одного поставщика оборудования (не обязательно
+предыдущего по иерархии). Важно отметить, что уровень иерархии определяется не названием
+звена, а отношением к остальным элементам сети, т.е. завод всегда находится на 0 уровне, а если
+розничная сеть относится напрямую к заводу, минуя остальные звенья - её уровень - 1.
+2. Каждое звено сети обладает следующими элементами:
+- Название;
+- Контакты:
+- Электронная почта;
+- Адрес:
+- Страна;
+- Город;
+- Улица;
+- Номер дома;
+- Продукты:
+- Название;
+- Модель;
+- Дата выхода продукта на рынок;
+- Сотрудники;
+- Поставщик (предыдущий по иерархии объект сети);
+- Задолженность перед поставщиком в денежном выражении с точностью до копеек;
+- Время создания (заполняется автоматически при создании).
+3. Сделать вывод в админ-панели созданных объектов;
+На странице объекта сети добавить: 
+• ссылку на «Поставщика»;
+• фильтр по названию города;
+• «admin action», очищающий задолженность перед поставщиком у выбранных
+объектов
 
-    Each link in the network refers to only one equipment supplier (not necessarily
-    the previous one in the hierarchy). It is important to note that the hierarchy level is determined not by the name
-    of the link, but by the relationship to the rest of the network elements, i.e. the factory is always at level 0, and if
-    the retail network refers directly to the factory, bypassing the other links, its level is 1.
+4. Используя DRF, создать набор представлений:
+4.1 Информацию обо всех объектах сети;
+4.2 Информацию об объектах определённой страны (фильтр по названию);
+4.3 Статистику об объектах, задолженность которых превышает среднюю задолженность 
+ всех объектов;
+4.4 Все объекты сети, где можно встретить определённый продукт (фильтр по id продукта);
+4.5 Возможность создания и удаления объекта сети и продукта;
+4.6 Возможность обновления данных объекта сети и продукта (запретить обновление через 
+ API поля «Задолженность перед поставщиком»);
+5. Настроить права доступа к API так, чтобы только активные сотрудники имели доступ к
+API.
 
-
-2. **Each link of the network has the following elements:**
-   - Name;
-   - Contacts:
-     - Email;
-     - Address:
-       - Country;
-       - City;
-       - Street;
-       - House number;
-   - Products:
-     - Name;
-     - Model;
-     - The date of the product's release to the market;
-   - Employees;
-   - Supplier (the previous network object in the hierarchy);
-   - Debt to the supplier in monetary terms, up to kopecks;
-   - Creation time (filled in automatically when created)
-
-
-3. **Make a conclusion in the admin panel of the created objects.On the network object page, add:**
-   - link to the "Supplier";
-   - filter by city name;
-   - "admin action", clearing debts to the supplier of selected
-   objects
-
-
-4. **Using DRF, create a set of views:**
-- 4.1 Information about all network objects;
-- 4.2 Information about objects of a certain country (filter by name);
-- 4.3 Statistics on objects whose debt exceeds the average debt
-of all objects;
-- 4.4 All network objects where a certain product can be found (filter by product id);
-- 4.5 The ability to create and delete a network object and a product;
-- 4.6 The ability to update the data of the network object and product (prohibit updating via 
- API of the "Debt to the supplier" field);
-
-5. **Configure API access rights so that only active employees have access to
-the API.**
 
 # Task Part #2 (optional):
-- Fill in the database.
-- Automate processes in the application using Celery.
-- Configure separate API access.
+Задание:
+- Заполнить базу данных.
+- Автоматизировать процессы в приложении при помощи Celery.
+- Настроить отдельный доступ к API.
 
 # Implementation requirements:
-1. **Fill the database with test data. You can choose the method yourself.**
-2. **Write several celery tasks:**
-    - The task should be started automatically every 3 hours and increase the debt
-to the supplier by a random number from 5 to 500;
-    - The task should start automatically at 6:30 every day and reduce
-the debt owed to the supplier by a random number from 100 to 10,000;
+1. Заполнить базу данных тестовыми данными. Способ выбрать самостоятельно.
+2. Написать несколько celery задач:
+• Задача должна запускаться автоматически каждые 3 часа и увеличивать задолженность 
+перед поставщиком на случайное число от 5 до 500;
+• Задача должна запускаться автоматически в 6:30 каждый день и уменьшать 
+задолженность перед поставщиком на случайное число от 100 до 10 000;
+• Если action из задания №3 предыдущей части применяется более чем к 20 объектам, 
+очистку данных нужно производить асинхронно.
+
 
 
 # Run the project locally
