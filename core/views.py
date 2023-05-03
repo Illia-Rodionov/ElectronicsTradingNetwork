@@ -7,6 +7,7 @@ from core.serializers import SupplierSerializer, ProductSerializer, \
     SupplierStatisticSerializer, UserSerializer, ContactSerializer,\
     SupplierUpdateSerializer
 from core.services import SupplierCountryFilter
+from core.pagination import ProductPagination
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -48,6 +49,7 @@ class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     permission_classes = (IsActive,)
+    pagination_class = ProductPagination
 
 
 class ContactViewSet(viewsets.ModelViewSet):
